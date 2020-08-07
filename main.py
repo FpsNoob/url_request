@@ -7,17 +7,17 @@ def gettgz(url):
     html = page.read()
     reg = r'href=".*\.tgz"'
     tgzre = re.compile(reg)
-    tgzlist = re.findall(tgzre,html.decode('utf-8'))  # 找到所有.tgz文件
+    tgzlist = re.findall(tgzre,html.decode('utf-8'))  # find all tgz file
     for i in tgzlist:
-        filename = i.replace('href="', '')
+        filename = i.replace('href="', '')  # detele href
         filename = filename.replace('"', '')
-        print('正在下载：'+filename)  # 提示正在下载的文件
-        downfile = i.replace('href="', url)
-        downfile = downfile.replace('"', '')  # 得到每个文件的完整连接
-        ur = urllib.request.urlopen(downfile).read()
-        open(filename, 'wb').write(ur)  # 把下载的文件以tgz格式存储在D盘
+        print('loading: '+filename)  # display the name of loadingfile
+        downfile = i.replace('href="', url)  # loading path + filename
+        downfile = downfile.replace('"', '')
+        data = urllib.request.urlopen(downfile).read()  # loading filename
+        open(filename, 'wb').write(data)  # save the file
 
 if __name__ == '__main__':
     file_url = r'http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/Audio/Main/16kHz_16bit/'
-    os.chdir('D:\\chrome\\voxforge speech files\\')  # 改变当前工作目录到指定路径
+    os.chdir('D:\\chrome\\voxforge speech files\\')  # change save path
     html = gettgz(file_url)
