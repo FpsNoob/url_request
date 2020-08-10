@@ -11,11 +11,15 @@ def gettgz(url):
     for i in tgzlist:
         filename = i.replace('href="', '')  # detele href
         filename = filename.replace('"', '')
-        print('loading: '+filename)  # display the name of loadingfile
-        downfile = i.replace('href="', url)  # loading path + filename
-        downfile = downfile.replace('"', '')
-        data = urllib.request.urlopen(downfile).read()  # loading filename
-        open(filename, 'wb').write(data)  # save the file
+        if os.path.exists(filename):
+            continue
+        else:
+            print('loading: '+filename)  # display the name of loadingfile
+            downfile = i.replace('href="', url)  # loading path + filename
+            downfile = downfile.replace('"', '')
+            data = urllib.request.urlopen(downfile).read()  # loading filename
+            open(filename, 'wb').write(data)  # save the file
+
 
 if __name__ == '__main__':
     file_url = r'http://www.repository.voxforge1.org/downloads/SpeechCorpus/Trunk/Audio/Main/16kHz_16bit/'
